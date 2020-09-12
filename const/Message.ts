@@ -1,0 +1,5 @@
+export const SUCCESS = "Thành công"
+export const SUCCESS_UPDATE = "Cập nhật thành công"
+export const SUCCESS_DELETE = "Xóa thành công"
+export const SUCCESS_CREATE = "Thêm mới thành công"
+export const SUCCESS_GET_PROFILE = "Lấy thông tin người dùng thành công"

@@ -1,8 +1,0 @@
-const SELECT = 'SELECT'
-const UPGRAGE = 'UPGRADE'
-const DELETE = 'DELETE'
-const CREATE = 'CREATE'
-const ADD ='ADD'
-const FROM = 'FROM'
-const INSERT = 'INSERT'
-const VALUE = 'VALUES'
