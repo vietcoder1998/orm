@@ -23,8 +23,5 @@
     "exclude": [
         "dist",
         "node_modules"
-    ],
-    "files": [
-        "*.ts"
     ]
 }

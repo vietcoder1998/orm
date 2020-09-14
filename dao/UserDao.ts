@@ -2,13 +2,11 @@ import { getConnection } from "typeorm";
 import { UserEntity } from "../entity/UserEntity";
 import IBaseDAO from './BaseDao';
 import UserRepository from '../repository/UserRepository';
+import { UserBody } from '../models/User';
 
-export class UserDao implements IBaseDAO<UserEntity>  {
+export class UserDao implements IBaseDAO<any>  {
     private data?: any;
     private userRepository: UserRepository = new UserRepository();
-
-    public getAll() {
-    }
 
     public getOne(id?: string) {
         this.data = this.userRepository.getUser(id);
@@ -20,13 +18,13 @@ export class UserDao implements IBaseDAO<UserEntity>  {
         return this.data;
     }
 
-    public update(id?: string, body?: Object) {
+    public update(id?: string, body?: UserBody) {
         this.data =  this.userRepository.updateUser(id, body);
         return this.data;
     }
     
-    public save(user?: UserEntity) {
-        this.data = this.userRepository.insertUser(user);
+    public create(body?: UserBody) {
+        this.data = this.userRepository.insertUser(body);
         return this.data;
     }
 

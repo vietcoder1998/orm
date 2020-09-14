@@ -3,6 +3,8 @@ import { logger } from './../config/Logger';
 import { UserEntity } from '../entity/UserEntity';
 import { ConfigResponse } from '../config/Response';
 import { SUCCESS, SUCCESS_CREATE, SUCCESS_DELETE, SUCCESS_UPDATE } from '../const/Message';
+import randomID from '../config/RandomID';
+import { UserBody } from '../models/User';
 
 export default class UserRepository {
     private connection: Connection;
@@ -34,22 +36,22 @@ export default class UserRepository {
                 if (res) {
                     this.user = res;
                 }
-            }).catch(err => logger.error(err));
+            })
         return ConfigResponse(200, SUCCESS, this.user)
     }
 
-    public async insertUser(user?: any) {
-        this.user = user;
-        user.id_user = "abc";
-        await this.connection.getRepository(UserEntity)
-            .insert(this.user)
+    public async insertUser(user?: UserBody) {
+        await this.connection
+            .createQueryBuilder()
+            .insert()
+            .into(UserEntity)
+            .values(user)
+            .execute()
             .then((res) => {
                 if (res) {
-                    this.user = JSON.stringify(res);
+                    console.log(res)
                 }
             })
-            .catch(err => logger.error(err));
-
         return ConfigResponse(200, SUCCESS_CREATE)
     }
 
@@ -58,7 +60,7 @@ export default class UserRepository {
             .createQueryBuilder()
             .update("user")
             .set({ active: -1 })
-            .where(`id_user=${id}`)
+            .where(`id=${id}`)
             .execute()
             .catch(err => logger.error(err));
         return ConfigResponse(200, SUCCESS_UPDATE, -1)
@@ -66,16 +68,14 @@ export default class UserRepository {
 
     public async updateUser(id: string, body?: any) {
         let user: UserEntity = new UserEntity;
-        console.log(body)
         user.username = body.username;
         user.password = body.password;
         user.created_date = body.created_date;
-
         await this.connection.getRepository(UserEntity)
             .createQueryBuilder()
             .update("user")
             .set({ ...user })
-            .where(`id_user=${id}`)
+            .where(`id=${id}`)
             .execute()
             .catch(err => logger.error(err));
         return ConfigResponse(200, SUCCESS_DELETE, -1)

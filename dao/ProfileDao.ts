@@ -3,18 +3,17 @@ import { getConnection } from "typeorm";
 import { ProfileEntity } from "../entity/ProfileEntity";
 import IBaseDAO from './BaseDao';
 import ProfileRepository from '../repository/ProfileRepository';
+import { stringify } from "querystring";
+import { ProfileBody } from '../models/Profile';
 
 export class ProfileDao implements IBaseDAO<ProfileEntity>  {
     private data?: any;
     constructor() {
     }
 
-    public getAll() {
-    }
-
     public getOne(id?: string | number) {
         let profileRepository: ProfileRepository = new ProfileRepository();
-        this.data = profileRepository.getProfile(id).then((res)=> console.log(res));
+        this.data = profileRepository.getProfile(id);
         return this.data;
     }
 
@@ -22,15 +21,18 @@ export class ProfileDao implements IBaseDAO<ProfileEntity>  {
 
     }
 
-    public update() {
-
+    public update(id?: string, body?: ProfileBody) {
+        let profileRepository: ProfileRepository = new ProfileRepository();
+        this.data = profileRepository.updateProfile(id, body);
+        return this.data;
     }
-    
-    public save() {
 
+    public create(id?: string, body?: ProfileBody) {
+        let profileRepository: ProfileRepository = new ProfileRepository();
+        this.data = profileRepository.insertProfile(id, body);
+        return this.data;
     }
 
     public delete() {
-
     }
 }

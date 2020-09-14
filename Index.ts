@@ -41,13 +41,12 @@ class App {
 
     this.httpServer.post('/user/create', (req?: express.Request, res?: express.Response) => {
       let userDao: UserDao = new UserDao();
-      let data = req.body.user;
-
-      let response = userDao.save(data);
+      let data = req.body;
+      let response = userDao.create(data);
       response.then((data?: any) => res.send(data))
     })
 
-    this.httpServer.post('/user/:id/update', (req?: express.Request, res?: express.Response) => {
+    this.httpServer.post('/user/:id', (req?: express.Request, res?: express.Response) => {
       let userDao: UserDao = new UserDao();
       let response = userDao.update(req.params.id, req.body);
       response.then((data?: any) => res.send(data))
@@ -58,10 +57,24 @@ class App {
       let response = userDao.delete(req.params.id);
       response.then((data?: any) => res.send(data))
     })
+  }
 
-    this.httpServer.get('/user/:id/profile', (req?: express.Request, res?: express.Response) => {
+  public ProfileService() {
+    this.httpServer.get('/profile/:id', (req?: express.Request, res?: express.Response) => {
       let profileDao: ProfileDao = new ProfileDao();
       let response = profileDao.getOne(req.params.id)
+      response.then((data?: any) => res.send(data))
+    })
+
+    this.httpServer.post('/profile/:id', (req?: express.Request, res?: express.Response) => {
+      let profileDao: ProfileDao = new ProfileDao();
+      let response = profileDao.update(req.params.id, req.body)
+      response.then((data?: any) => res.send(data))
+    })
+
+    this.httpServer.post('/profile/:id/create', (req?: express.Request, res?: express.Response) => {
+      let profileDao: ProfileDao = new ProfileDao();
+      let response = profileDao.create(req.params.id, req.body)
       response.then((data?: any) => res.send(data))
     })
   }
@@ -72,3 +85,4 @@ const port = process.env.SERVER_PORT;
 let newApp = new App();
 newApp.Start(port);
 newApp.UserService();
+newApp.ProfileService();

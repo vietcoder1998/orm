@@ -4,6 +4,7 @@ import { logger } from './../config/Logger';
 // import config from "../ormconfig.json";
 import { UserEntity } from '../entity/UserEntity';
 import { ProfileEntity } from '../entity/ProfileEntity';
+import { RoleEntity } from '../entity/RoleEntity';
 
 export default function connectDB() {
     createConnection({
@@ -15,6 +16,7 @@ export default function connectDB() {
         password: "123456",
         database: "werewolf",
         entities: [
+            RoleEntity,
             UserEntity,
             ProfileEntity
         ],
